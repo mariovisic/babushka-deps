@@ -58,7 +58,10 @@ end
 
 # General rails app setup
 dep 'provision app', :host, :public_key, :app_user do
-  as(app_user) { remote_babushka 'mariovisic:node.src' }
+  as(app_user) {
+    remote_babushka 'mariovisic:node.src'
+    remote_babushka 'mariovisic:1.9.3-falcon.rbenv'
+  }
 end
 
 # Frontend rails server setup

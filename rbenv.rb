@@ -62,14 +62,8 @@ dep '1.9.3-falcon.rbenv' do
     falcon_patch = 'https://raw.github.com/gist/2600122/rbenv.sh'
     shell "curl '#{falcon_patch}' | git apply"
   }
-
-  shell "rbenv global 1.9.3-p194"
-  shell "gem install bundler --pre"
 end
 
 dep '1.9.3.rbenv' do
   patchlevel 'p194'
-
-  shell "rbenv global 1.9.3-p194"
-  shell "gem install bundler --pre"
 end
