@@ -14,6 +14,7 @@ dep 'rbenv' do
     shell "echo 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bash_profile"
     shell "echo 'eval \"$(rbenv init -)\"' >> ~/.bash_profile"
     shell "exec $SHELL"
+  }
 end
 
 meta :rbenv do
