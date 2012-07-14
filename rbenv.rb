@@ -11,6 +11,10 @@ dep 'rbenv' do
   }
   meet {
     shell "curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash"
+    shell %{if [[ -d $HOME/.rbenv ]]; then
+      export PATH="$HOME/.rbenv/bin:$PATH"
+      eval "$(rbenv init -)"
+    fi}
   }
 end
 
@@ -47,6 +51,8 @@ meta :rbenv do
     }
     after {
       log_shell 'rbenv rehash', 'rbenv rehash'
+      log_shell 'Set global ruby', "rbenv global #{version}#{patchlevel}"
+      log_shell 'Install bundler', 'gem install bundler --pre'
     }
   }
 end
@@ -58,8 +64,14 @@ dep '1.9.3-falcon.rbenv' do
     falcon_patch = 'https://raw.github.com/gist/2600122/rbenv.sh'
     shell "curl '#{falcon_patch}' | git apply"
   }
+
+  shell "rbenv global 1.9.3-p194"
+  shell "gem install bundler --pre"
 end
 
 dep '1.9.3.rbenv' do
   patchlevel 'p194'
+
+  shell "rbenv global 1.9.3-p194"
+  shell "gem install bundler --pre"
 end
