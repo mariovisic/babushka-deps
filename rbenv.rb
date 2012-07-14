@@ -11,11 +11,9 @@ dep 'rbenv' do
   }
   meet {
     shell "curl -L https://raw.github.com/fesplugas/rbenv-installer/master/bin/rbenv-installer | bash"
-    shell %{if [[ -d $HOME/.rbenv ]]; then
-      export PATH="$HOME/.rbenv/bin:$PATH"
-      eval "$(rbenv init -)"
-    fi}
-  }
+    shell "echo 'export PATH=\"$HOME/.rbenv/bin:$PATH\"' >> ~/.bash_profile"
+    shell "echo 'eval \"$(rbenv init -)\"' >> ~/.bash_profile"
+    shell "exec $SHELL"
 end
 
 meta :rbenv do
