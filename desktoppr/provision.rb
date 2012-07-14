@@ -44,16 +44,20 @@ include RemoteHelpers
 dep 'provision base', :host, :public_key, :app_user  do
   public_key.default!((dependency.load_path.parent / 'config/authorized_public_key').read)
 
-  requires_when_unmet 'conversation:public key in place'.with(host, public_key)
-  requires_when_unmet 'conversation:babushka bootstrapped'.with(host)
+  requires 'conversation:public key in place'.with(host, public_key)
+  requires 'conversation:babushka bootstrapped'.with(host)
 
-  remote_babushka 'benhoskings:set.locale', :locale_name => 'en_AU'
-  remote_babushka '"benhoskings:libssl headers.managed"'
-  remote_babushka 'benhoskings:utc'
-  remote_babushka '"benhoskings:lamp stack removed"'
-  remote_babushka '"benhoskings:postfix removed"'
-  remote_babushka '"benhoskings:user setup for provisioning"', :username => app_user, :key => public_key
-  remote_babushka 'benhoskings:system'
+  meet {
+    as('root') {
+      remote_babushka 'benhoskings:set.locale', :locale_name => 'en_AU'
+      remote_babushka '"benhoskings:libssl headers.managed"'
+      remote_babushka 'benhoskings:utc'
+      remote_babushka '"benhoskings:lamp stack removed"'
+      remote_babushka '"benhoskings:postfix removed"'
+      remote_babushka '"benhoskings:user setup for provisioning"', :username => app_user, :key => public_key
+      remote_babushka 'benhoskings:system'
+    }
+  }
 end
 
 # General rails app setup
