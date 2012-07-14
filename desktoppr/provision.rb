@@ -39,11 +39,11 @@ module RemoteHelpers
       '--show-args'
     ].compact
 
-    remote_args.concat args.keys.map {|k| "#{k}=\"#{args[k]}\"" }
+    remote_args.concat args.keys.map {|k| %{#{k}="#{args[k]}"} }
 
     remote_shell(
       'babushka',
-      dep_spec,
+      %{"#{dep_spec}"},
       *remote_args
     ).tap {|result|
       unmeetable! "The remote babushka reported an error." unless result
@@ -56,11 +56,11 @@ include RemoteHelpers
 dep 'system setup', :host, :public_key, :app_user do
   as('root') {
     remote_babushka 'benhoskings:set.locale', :locale_name => 'en_AU'
-    remote_babushka '"benhoskings:libssl headers.managed"'
+    remote_babushka 'benhoskings:libssl headers.managed'
     remote_babushka 'benhoskings:utc'
-    remote_babushka '"benhoskings:lamp stack removed"'
-    remote_babushka '"benhoskings:postfix removed"'
-    remote_babushka '"benhoskings:user setup for provisioning"', :username => app_user, :key => public_key
+    remote_babushka 'benhoskings:lamp stack removed'
+    remote_babushka 'benhoskings:postfix removed'
+    remote_babushka 'benhoskings:user setup for provisioning', :username => app_user, :key => public_key
     remote_babushka 'benhoskings:system'
   }
 end
