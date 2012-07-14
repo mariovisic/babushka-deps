@@ -39,7 +39,7 @@ module RemoteHelpers
       '--show-args'
     ].compact
 
-    remote_args.concat args.keys.map {|k| "#{k}=#{args[k]}" }
+    remote_args.concat args.keys.map {|k| "#{k}=\"#{args[k]}\"" }
 
     remote_shell(
       'babushka',
